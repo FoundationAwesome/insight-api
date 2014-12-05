@@ -66,6 +66,7 @@ exports.utxo = function(req, res, next) {
       if (err)
         return common.handleErrors(err, res);
       else {
+        console.log(a.unspent)
         return res.jsonp(a.unspent);
       }
     }, {onlyUnspent:1, ignoreCache: req.param('noCache')});

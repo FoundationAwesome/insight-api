@@ -15,6 +15,7 @@ Status.prototype.getInfo = function(next) {
   async.series([
     function (cb) {
       rpc.getInfo(function(err, info){
+        console.log(info)
         if (err) return cb(err);
 
         that.info = info.result;
@@ -99,6 +100,21 @@ Status.prototype.getLastBlockHash = function(next) {
           return next();
         }
     );
+  });
+};
+
+Status.prototype.getMiningInfo = function(next) {
+  var that = this;
+  async.series([
+    function (cb) {
+      rpc.getMiningInfo(function(err, info){
+        if (err) return cb(err);
+        that.info = info.result;
+        return cb();
+      });
+    },
+  ], function (err) {
+    return next(err);
   });
 };
 

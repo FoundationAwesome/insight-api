@@ -94,6 +94,7 @@ Address.prototype.getObj = function() {
 };
 
 Address.prototype._addTxItem = function(txItem, txList) {
+  //console.log('addtxitem ', txItem)
   var add=0, addSpend=0;
   var v = txItem.value_sat;
   var seen = this.seen;
@@ -171,7 +172,9 @@ Address.prototype.update = function(next, opts) {
             return !x.spentTxId;
           });
           tDb.fillScriptPubKey(txOut, function() {
+            //console.log('txOut is ',txOut)
             self.unspent = txOut.map(function(x){
+              //console.log('xxx is ',x)
               return {
                 address: self.addrStr,
                 txid: x.txid,
