@@ -21,6 +21,8 @@ function getUserHome() {
 
 var home = process.env.INSIGHT_DB || (getUserHome() + '/.insight');
 
+console.log(process.env.INSIGHT_NETWORK)
+
 if (process.env.INSIGHT_NETWORK === 'livenet') {
   env = 'livenet';
   db = home;
@@ -56,9 +58,9 @@ var isWin = /^win/.test(process.platform);
 var isMac = /^darwin/.test(process.platform);
 var isLinux = /^linux/.test(process.platform);
 if (!dataDir) {
-  if (isWin) dataDir = '%APPDATA%\\Bitcoin\\';
-  if (isMac) dataDir = process.env.HOME + '/Library/Application Support/Bitcoin/';
-  if (isLinux) dataDir = process.env.HOME + '/.bitcoin/';
+  if (isWin) dataDir = '%APPDATA%\\CoinAwesome\\';
+  if (isMac) dataDir = process.env.HOME + '/Library/Application Support/CoinAwesome/';
+  if (isLinux) dataDir = process.env.HOME + '/.coinawesome/';
 }
 dataDir += network === 'testnet' ? 'testnet3' : '';
 
@@ -79,6 +81,8 @@ var bitcoindConf = {
   disableAgent: true
 };
 
+console.log(bitcoindConf)
+
 var enableMonitor = process.env.ENABLE_MONITOR === 'true';
 var enableCleaner = process.env.ENABLE_CLEANER === 'true';
 var enableMailbox = process.env.ENABLE_MAILBOX === 'true';
@@ -88,6 +92,7 @@ var enableEmailstore = process.env.ENABLE_EMAILSTORE === 'true';
 var enablePublicInfo = process.env.ENABLE_PUBLICINFO === 'true';
 var loggerLevel = process.env.LOGGER_LEVEL || 'info';
 var enableHTTPS = process.env.ENABLE_HTTPS === 'true';
+var enableCurrencyRates = process.env.ENABLE_CURRENCYRATES === 'true';
 
 if (!fs.existsSync(db)) {
   mkdirp.sync(db);
@@ -106,6 +111,8 @@ module.exports = {
   credentialstore: require('../plugins/config-credentialstore'),
   enableEmailstore: enableEmailstore,
   emailstore: require('../plugins/config-emailstore'),
+  enableCurrencyRates: enableCurrencyRates,
+  currencyrates: require('../plugins/config-currencyrates'),
   enablePublicInfo: enablePublicInfo,
   publicInfo: require('../plugins/publicInfo/config'),
   loggerLevel: loggerLevel,
@@ -113,7 +120,7 @@ module.exports = {
   version: version,
   root: rootPath,
   publicPath: process.env.INSIGHT_PUBLIC_PATH || false,
-  appName: 'Insight ' + env,
+  appName: 'Awesome Insights ' + env,
   apiPrefix: '/api',
   port: port,
   leveldb: db,
@@ -131,3 +138,8 @@ module.exports = {
   safeConfirmations: safeConfirmations, // PLEASE NOTE THAT *FULL RESYNC* IS NEEDED TO CHANGE safeConfirmations
   ignoreCache: ignoreCache,
 };
+
+// start like this
+// local export INSIGHT_PUBLIC_PATH=public ENABLE_HTTPS=false INSIGHT_NETWORK=livenet BITCOIND_USER=awesome BITCOIND_PASS=79aA1vstAq41yd1BikZBRLYC1zfKJqUgh4TkRbzxzo4G
+// SEVER export INSIGHT_PUBLIC_PATH=public ENABLE_HTTPS=false INSIGHT_NETWORK=livenet BITCOIND_USER=awesome BITCOIND_PASS=aweaweaweoleoleole333
+

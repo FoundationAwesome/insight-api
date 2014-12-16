@@ -40,9 +40,6 @@ exports.show = function(req, res) {
       case 'getLastBlockHash':
         statusObject.getLastBlockHash(returnJsonp);
         break;
-      case 'getMiningInfo':
-        statusObject.getMiningInfo(returnJsonp);
-        break;
       case 'getBestBlockHash':
         statusObject.getBestBlockHash(returnJsonp);
         break;
